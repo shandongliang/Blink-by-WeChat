@@ -9,8 +9,8 @@
   align-items: center;
 }
 .icon{
-  height: 60rpx;
-  width: 40rpx;
+  height: 80rpx;
+  width: 80rpx;
 }
 .title{
   font-size: 28rpx;

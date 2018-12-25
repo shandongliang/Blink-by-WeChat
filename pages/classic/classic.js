@@ -9,7 +9,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    classic:null,
+    first:false,
+    latest:true,
+    likeStatus:false,
+    likeCount:0
   },
 
   /**
@@ -18,7 +22,9 @@ Page({
   onLoad: function (options) {
     classicModel.getLatest((res)=>{
       this.setData({
-        classic: res
+        classic: res,
+        likeStatus: res.like_status,
+        likeCount: res.fav_nums
       })
     })
   },
@@ -26,6 +32,36 @@ Page({
   onLike:function(event){
     let behavior = event.detail.behavior
     likeModel.like(behavior, this.data.classic.id, this.data.classic.type)
+  },
+
+  onPrevious:function(event){
+    this._updateClassic('previous')
+  },
+
+  onNext: function (event) {
+    this._updateClassic('next')
+  },
+
+  _updateClassic: function (nextOrPrevious){
+    let index = this.data.classic.index
+    classicModel.getClassic(index, nextOrPrevious, (res) => {
+      this._getLikeStatus(res.id,res.type)
+      this.setData({
+        classic: res,
+        latest: classicModel.isLatest(res.index),
+        first: classicModel.isFirst(res.index)
+      })
+    })
+  },
+
+  _getLikeStatus:function(artID,category){
+    likeModel.getClassicLikeStatus(artID,category,
+    (res)=>{
+      this.setData({
+        likeStatus: res.like_status,
+        likeCount: res.fav_nums
+      })
+    })
   },
 
   /**
