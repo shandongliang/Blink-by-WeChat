@@ -63,7 +63,7 @@
       </v-tag>
     </block>
   </view>
-  <input bindconfirm="onPost" class="post" placeholder='短评最多12个字'></input>
+  <input bind:confirm="onPost" class="post" placeholder='短评最多12个字'></input>
 </view>
 
 <v-mask wx:if="{{posting}}"/>
